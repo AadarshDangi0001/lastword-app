@@ -47,7 +47,6 @@ app/
    (tabs)/
       _layout.js
       index.js
-      settings.js
 src/
    components/
       layout/

@@ -1,4 +1,5 @@
-import { Text, View, ScrollView, ImageBackground, Pressable, SafeAreaView } from 'react-native';
+import { Text, View, ScrollView, ImageBackground, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -40,13 +41,13 @@ export default function HomeScreen() {
           {/* Header Section */}
           <View className="mb-8 flex-row items-center justify-between">
             <View className="flex-row items-center gap-3">
-              <View className="h-12 w-12 rounded-full bg-slate-400" />
+              <View className="h-16 w-16 rounded-xl bg-slate-400" />
               <View>
-                <Text className="font-poppins text-sm text-slate-600">Hello,</Text>
-                <Text className="font-poppins text-lg font-bold text-slate-900">Aadarsh</Text>
+                <Text className="font-poppins text-2xl font-semibold text-black ">Hello,</Text>
+                <Text className="font-poppins text-2xl font-semibold text-black ">Aadarsh</Text>
               </View>
             </View>
-            <Pressable className="h-12 w-12 items-center justify-center rounded-full bg-slate-200">
+            <Pressable className="h-16 w-16 items-center justify-center rounded-xl bg-slate-200">
               <Ionicons name="notifications" size={24} color="#333" />
             </Pressable>
           </View>
@@ -60,18 +61,18 @@ export default function HomeScreen() {
               height: 280,
              
             }}
-            className=" "
+            className=" background-cover "
             resizeMode="contain"
           >
-            <View className="relative z-10 px-6 py-8">
+            <View className="relative z-10 px-8 py-16">
               <View className="flex-row items-center justify-between">
                 <View>
                   <View className="mb-2 flex-row items-baseline gap-2">
-                    <Text className="font-poppins text-5xl font-bold text-slate-900">{days}</Text>
-                    <Text className="font-poppins text-2xl text-slate-900">Days</Text>
+                    <Text className="font-poppins text-8xl font-bold text-slate-900">{days}</Text>
+                    <Text className="font-poppins text-6xl text-slate-900">Days</Text>
                   </View>
-                  <Text className="font-poppins text-lg text-slate-700">
-                    <Text className="font-bold">{hours}</Text> Hours, <Text className="font-bold">{minutes}</Text> Min
+                  <Text className="font-poppins text-4xl text-slate-900">
+                    <Text className="font-bold">{hours}</Text> <Text className="text-3xl">Hours</Text> <Text className="font-bold">{minutes}</Text> <Text className="text-3xl">Mins</Text>
                   </Text>
                 </View>
                
@@ -80,9 +81,16 @@ export default function HomeScreen() {
           </ImageBackground>
 
           {/* Message Section */}
-          <View className="mb-8">
-            <Text className="font-poppins text-2xl font-semibold text-slate-900">
-              Please Add Contact Before Start Timer
+          <View className="mb-8 "
+          style={{
+            width:'100%',
+            height:"20%"
+          
+          }}>
+            <Text className="font-poppins text-4xl leading-[44px]  text-slate-900">
+            Please Add{"\n"}
+  Contact Before{"\n"}
+  Start Timer
             </Text>
           </View>
 
