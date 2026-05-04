@@ -40,6 +40,9 @@
         }
       ]
     ],
+    "fonts": [
+      "./assets/fonts/"
+    ],
     "experiments": {
       "typedRoutes": false,
       "reactCompiler": true

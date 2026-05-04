@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{js,jsx}', './src/**/*.{js,jsx}', './components/**/*.{js,jsx}'],
+  presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['Poppins'],
+      },
       colors: {
         brand: {
           50: '#ecfeff',
