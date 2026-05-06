@@ -379,6 +379,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0f172a',
   },
+  
   messageInput: {
     minHeight: 120,
     textAlignVertical: 'top',
