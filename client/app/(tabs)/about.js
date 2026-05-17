@@ -14,7 +14,7 @@ export default function AboutScreen() {
             source={aboutBg}
             resizeMode="contain"
             imageStyle={{ borderRadius: 24 }}
-            style={{ width: 410, height: 750 }}
+            style={{ width: 410, minHeight: 720 }}
           >
             <View className="flex-1 items-center justify-center px-6 py-8">
               <Text className="font-poppins text-center text-xl leading-6 text-slate-900">

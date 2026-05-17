@@ -29,7 +29,7 @@ export default function ProfileScreen() {
         </View>
 
         <View className="mt-8">
-          <Text className="mb-3 font-poppins-sem text-2xl text-slate-900">Help & Support</Text>
+          <Text className="mb-3 font-poppins-semibold text-2xl text-slate-900">Help & Support</Text>
           <Text className="mb-3 font-poppins text-2xl text-slate-900">Terms & Conditions</Text>
           <Text className="font-poppins text-2xl text-slate-900">Privacy Policy</Text>
         </View>
