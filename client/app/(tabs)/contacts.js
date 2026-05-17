@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 16,
     fontSize: 30,
-    fontWeight: '600',
+    fontFamily: 'Poppins_600SemiBold',
     color: '#0f172a',
   },
   emptyState: {
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontFamily: 'Poppins_500Medium',
     color: '#64748b',
   },
   list: {
@@ -279,22 +279,25 @@ const styles = StyleSheet.create({
   },
   cardName: {
     fontSize: 28,
-    fontWeight: '600',
+    fontFamily: 'Poppins_600SemiBold',
     color: '#0f172a',
     marginTop: 14,
   },
   cardEmail: {
     marginTop: 2,
     fontSize: 20,
+    fontFamily: 'Poppins_400Regular',
     color: '#334155',
   },
   cardMeta: {
     fontSize: 14,
+    fontFamily: 'Poppins_400Regular',
     color: '#475569',
   },
   cardMessage: {
     marginTop: 8,
     fontSize: 14,
+    fontFamily: 'Poppins_400Regular',
     color: '#475569',
   },
   cardActions: {
@@ -322,7 +325,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: 'center',
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: 'Poppins_500Medium',
     color: '#475569',
   },
   addButton: {
@@ -337,7 +340,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: 24,
-    fontWeight: '600',
+    fontFamily: 'Poppins_600',
     color: '#ffffff',
   },
   modalOverlay: {
@@ -362,13 +365,13 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: 'Poppins_600SemiBold',
     color: '#0f172a',
   },
   errorText: {
     marginBottom: 12,
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: 'Poppins_500Medium',
     color: '#e11d48',
   },
   formFields: {
@@ -380,6 +383,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
     color: '#0f172a',
   },
   
@@ -397,8 +401,8 @@ const styles = StyleSheet.create({
     
   },
   submitButtonText: {
-    fontSize: 16,
-    fontWeight: '200',
+    fontSize: 1,
+    fontFamily: 'Poppins_500Medium',
     color: '#ffffff',
   },
 });

@@ -69,7 +69,7 @@ export default function HomeScreen() {
                 <View>
                   <View className="mb-2 flex-row items-baseline gap-2">
                     <Text className="font-poppins-bold text-8xl text-slate-900">{days}</Text>
-                    <Text className="font-poppins text-6xl text-slate-900">Days</Text>
+                    <Text className="font-poppins text-5xl text-slate-900">Days</Text>
                   </View>
                     <Text className="font-poppins text-4xl text-slate-900">
                     <Text className="font-poppins-bold">{hours}</Text> <Text className="text-3xl">Hours</Text> <Text className="font-poppins-bold">{minutes}</Text> <Text className="text-3xl">Mins</Text>
@@ -116,7 +116,7 @@ export default function HomeScreen() {
             style={{ backgroundColor: '#4A4A4B' }}
             className="mb-6 items-center rounded-xl py-6"
           >
-            <Text className="font-poppins-semibold text-3xl text-white">Start</Text>
+            <Text className="font-poppins text-3xl text-white">Start</Text>
           </Pressable>
         </View>
       </ScrollView>
