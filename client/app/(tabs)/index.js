@@ -43,8 +43,8 @@ export default function HomeScreen() {
             <View className="flex-row items-center gap-3">
               <View className="h-16 w-16 rounded-xl bg-slate-400" />
               <View>
-                <Text className="font-poppins text-2xl font-semibold text-black ">Hello,</Text>
-                <Text className="font-poppins text-2xl font-semibold text-black ">Aadarsh</Text>
+                <Text className="font-poppins-semibold text-2xl text-black ">Hello,</Text>
+                <Text className="font-poppins-semibold text-2xl text-black ">Aadarsh</Text>
               </View>
             </View>
             <Pressable className="h-16 w-16 items-center justify-center rounded-xl bg-slate-200">
@@ -68,11 +68,11 @@ export default function HomeScreen() {
               <View className="flex-row items-center justify-between">
                 <View>
                   <View className="mb-2 flex-row items-baseline gap-2">
-                    <Text className="font-poppins text-8xl font-bold text-slate-900">{days}</Text>
+                    <Text className="font-poppins-bold text-8xl text-slate-900">{days}</Text>
                     <Text className="font-poppins text-6xl text-slate-900">Days</Text>
                   </View>
-                  <Text className="font-poppins text-4xl text-slate-900">
-                    <Text className="font-bold">{hours}</Text> <Text className="text-3xl">Hours</Text> <Text className="font-bold">{minutes}</Text> <Text className="text-3xl">Mins</Text>
+                    <Text className="font-poppins text-4xl text-slate-900">
+                    <Text className="font-poppins-bold">{hours}</Text> <Text className="text-3xl">Hours</Text> <Text className="font-poppins-bold">{minutes}</Text> <Text className="text-3xl">Mins</Text>
                   </Text>
                 </View>
                
@@ -116,7 +116,7 @@ export default function HomeScreen() {
             style={{ backgroundColor: '#4A4A4B' }}
             className="mb-6 items-center rounded-xl py-6"
           >
-            <Text className="font-poppins text-3xl font-semibold text-white">Start</Text>
+            <Text className="font-poppins-semibold text-3xl text-white">Start</Text>
           </Pressable>
         </View>
       </ScrollView>

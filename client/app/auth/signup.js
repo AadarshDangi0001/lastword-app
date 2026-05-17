@@ -36,7 +36,7 @@ export default function SignupScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
         <View className="flex-1 items-center justify-center px-4 py-8">
             {/* Title */}
-            <Text className="mb-12 font-poppins text-5xl font-bold text-slate-900">Last Word</Text>
+            <Text className="mb-12 font-poppins-bold text-5xl text-slate-900">Last Word</Text>
 
             {/* Card Container */}
             <View className="w-full max-w-sm rounded-3xl bg-white shadow-2xl overflow-hidden relative">
@@ -63,7 +63,7 @@ export default function SignupScreen() {
               <View className="px-6 py-8 relative z-10">
                 {/* Header */}
                 <View className="mb-6">
-                  <Text className="font-poppins text-2xl font-bold text-slate-900">
+                  <Text className="font-poppins-bold text-2xl text-slate-900">
                     Create an account
                   </Text>
                   <Text className="mt-2 font-poppins text-sm text-slate-500">
@@ -136,7 +136,7 @@ export default function SignupScreen() {
                   className={`mb-6 items-center rounded-full py-3 ${agreed ? 'bg-blue-600 active:opacity-80' : 'bg-blue-300'}`}
                   disabled={!agreed}
                 >
-                  <Text className="font-poppins text-base font-semibold text-white">
+                  <Text className="font-poppins-semibold text-base text-white">
                     Create account
                   </Text>
                 </Pressable>
@@ -150,13 +150,13 @@ export default function SignupScreen() {
                   />
                   <Text className="font-poppins text-xs text-slate-600">I agree to the </Text>
                   <Pressable>
-                    <Text className="font-poppins text-xs font-semibold text-blue-600">
+                    <Text className="font-poppins-semibold text-xs text-blue-600">
                       Privacy Policy
                     </Text>
                   </Pressable>
                   <Text className="font-poppins text-xs text-slate-600"> and </Text>
                   <Pressable>
-                    <Text className="font-poppins text-xs font-semibold text-blue-600">
+                    <Text className="font-poppins-semibold text-xs text-blue-600">
                       Terms of Service
                     </Text>
                   </Pressable>
@@ -173,7 +173,7 @@ export default function SignupScreen() {
                 <View className="flex-row items-center justify-center gap-2">
                   <Text className="font-poppins text-sm text-slate-600">Already have an account? </Text>
                   <Pressable onPress={() => router.push('/auth/login')}>
-                    <Text className="font-poppins text-sm font-semibold text-blue-600">Log in</Text>
+                    <Text className="font-poppins-semibold text-sm text-blue-600">Log in</Text>
                   </Pressable>
                 </View>
               </View>
@@ -195,7 +195,7 @@ export default function SignupScreen() {
                 onPress={() => setShowDatePicker(false)}
                 className="bg-blue-600 py-3 items-center"
               >
-                <Text className="font-poppins text-base font-semibold text-white">Done</Text>
+                <Text className="font-poppins-semibold text-base text-white">Done</Text>
               </Pressable>
             )}
           </View>

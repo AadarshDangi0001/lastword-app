@@ -27,7 +27,7 @@ export default function LoginScreen() {
       >
         <View className="flex-1 items-center justify-center px-4 py-8">
           {/* Title */}
-          <Text className="mb-12 font-poppins text-5xl font-bold text-slate-900">
+          <Text className="mb-12 font-poppins-bold text-5xl text-slate-900">
             Last Word
           </Text>
 
@@ -58,7 +58,7 @@ export default function LoginScreen() {
             <View className="px-6 py-8 relative z-10">
               {/* Header */}
               <View className="mb-6">
-                <Text className="font-poppins text-2xl font-bold text-slate-900">
+                <Text className="font-poppins-bold text-2xl text-slate-900">
                   Login to your account
                 </Text>
                 <Text className="mt-2 font-poppins text-sm text-slate-500">
@@ -105,7 +105,7 @@ export default function LoginScreen() {
               {/* Forgot Password */}
               <View className="mb-6 flex-row justify-end">
                 <Pressable>
-                  <Text className="font-poppins text-sm font-semibold text-blue-600">
+                  <Text className="font-poppins-semibold text-sm text-blue-600">
                     Forgot Password
                   </Text>
                 </Pressable>
@@ -117,7 +117,7 @@ export default function LoginScreen() {
                 className={`mb-6 items-center rounded-full py-3 ${agreed ? 'bg-blue-600 active:opacity-80' : 'bg-blue-300'}`}
                 disabled={!agreed}
               >
-                <Text className="font-poppins text-base font-semibold text-white">
+                <Text className="font-poppins-semibold text-base text-white">
                   Login now
                 </Text>
               </Pressable>
@@ -133,7 +133,7 @@ export default function LoginScreen() {
                   I agree to the{" "}
                 </Text>
                 <Pressable>
-                  <Text className="font-poppins text-xs font-semibold text-blue-600">
+                  <Text className="font-poppins-semibold text-xs text-blue-600">
                     Privacy Policy
                   </Text>
                 </Pressable>
@@ -142,7 +142,7 @@ export default function LoginScreen() {
                   and{" "}
                 </Text>
                 <Pressable>
-                  <Text className="font-poppins text-xs font-semibold text-blue-600">
+                  <Text className="font-poppins-semibold text-xs text-blue-600">
                     Terms of Service
                   </Text>
                 </Pressable>
@@ -163,7 +163,7 @@ export default function LoginScreen() {
                   Don't have an account?{" "}
                 </Text>
                 <Pressable onPress={() => router.push("/auth/signup")}>
-                  <Text className="font-poppins text-sm font-semibold text-blue-600">
+                  <Text className="font-poppins-semibold text-sm text-blue-600">
                     Sign up
                   </Text>
                 </Pressable>

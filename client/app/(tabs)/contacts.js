@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  Alert,
   ImageBackground,
   Modal,
   Pressable,
@@ -101,7 +102,16 @@ export default function ContactsScreen() {
   };
 
   const handleDelete = id => {
-    setContacts(prev => prev.filter(item => item.id !== id));
+    Alert.alert('Delete contact?', 'This action cannot be undone.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          setContacts(prev => prev.filter(item => item.id !== id));
+        },
+      },
+    ]);
   };
 
   return (
@@ -129,12 +139,7 @@ export default function ContactsScreen() {
                 <View style={styles.cardContent}>
                   <Text style={styles.cardName}>{contact.name}</Text>
                   <Text style={styles.cardEmail}>{contact.email}</Text>
-                  {contact.phone ? (
-                    <Text style={styles.cardMeta}>{contact.phone}</Text>
-                  ) : null}
-                  {contact.message ? (
-                    <Text style={styles.cardMessage}>{contact.message}</Text>
-                  ) : null}
+                  
                 </View>
 
                 <View style={styles.cardActions}>
@@ -260,30 +265,27 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: '#ffffff',
     overflow: 'hidden',
+    height: 140,
+    
   },
-  cardShadow: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
-  },
+
   cardImage: {
     borderRadius: 16,
-    opacity: 0.35,
+   
   },
   cardContent: {
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
   cardName: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: '600',
     color: '#0f172a',
+    marginTop: 14,
   },
   cardEmail: {
     marginTop: 2,
-    fontSize: 14,
+    fontSize: 20,
     color: '#334155',
   },
   cardMeta: {
@@ -298,17 +300,17 @@ const styles = StyleSheet.create({
   cardActions: {
     position: 'absolute',
     right: 12,
-    top: 12,
+    bottom: 12,
     flexDirection: 'row',
     gap: 8,
   },
   actionButton: {
-    height: 36,
-    width: 36,
+    height: 50,
+    width: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 12,
-    backgroundColor: '#fee2e2',
+    backgroundColor: '#FEC5C1',
   },
   addButtonWrap: {
     position: 'absolute',
@@ -330,7 +332,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   addButtonDisabled: {
-    backgroundColor: '#94a3b8',
+    backgroundColor: '#4A4A4B',
+   
   },
   addButtonText: {
     fontSize: 24,
@@ -390,10 +393,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: '#000000',
     paddingVertical: 16,
+   
+    
   },
   submitButtonText: {
     fontSize: 16,
-    fontWeight: '300',
+    fontWeight: '200',
     color: '#ffffff',
   },
 });
