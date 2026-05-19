@@ -184,6 +184,7 @@ Example response:
 }
 ```
 
+
 #### DELETE {{baseUrl}}/api/v1/contacts/:contactId
 
 Purpose: Delete one saved contact.
