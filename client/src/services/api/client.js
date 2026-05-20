@@ -1,9 +1,14 @@
 import { API_URL } from '../../config/env';
+import { getItem } from '../../lib/storage';
+import { STORAGE_KEYS } from '../../constants/app';
 
 async function request(path, options = {}) {
+  const token = await getItem(STORAGE_KEYS.authToken);
+  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
   const response = await fetch(`${API_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
+      ...authHeader,
       ...(options.headers || {}),
     },
     ...options,
@@ -28,4 +33,5 @@ export const apiClient = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
+  del: (path, options = {}) => request(path, { ...options, method: 'DELETE' }),
 };

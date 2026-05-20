@@ -59,7 +59,7 @@ export const validateLogin = (req, res, next) => {
 };
 
 export const validateLogout = (req, res, next) => {
-  const { refreshToken } = req.cookies || {};
+  const refreshToken = req.body?.refreshToken || req.cookies?.refreshToken;
 
   if (refreshToken && typeof refreshToken !== 'string') {
     return badRequest(res, 'Invalid refresh token');

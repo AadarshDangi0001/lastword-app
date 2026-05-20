@@ -43,6 +43,8 @@ export const signup = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'Signup successful',
+      accessToken,
+      refreshToken,
       user: sanitizeUser(user),
     });
   } catch (error) {
@@ -79,6 +81,8 @@ export const login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Login successful',
+      accessToken,
+      refreshToken,
       user: sanitizeUser(user),
     });
   } catch (error) {
@@ -92,7 +96,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    const { refreshToken } = req.cookies;
+    const refreshToken = req.body?.refreshToken || req.cookies?.refreshToken;
 
     if (refreshToken) {
       const hashedToken = hashRefreshToken(refreshToken);

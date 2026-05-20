@@ -4,10 +4,14 @@ import { useState } from 'react';
 import { router } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { signupUser } from '../../src/services/api/auth';
+import { setItem } from '../../src/lib/storage';
+import { STORAGE_KEYS } from '../../src/constants/app';
 
 const loginbg = require('../../assets/bg-imgs/loginbg.png');
 
 export default function SignupScreen() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dob, setDob] = useState('');
   const [password, setPassword] = useState('');
@@ -15,6 +19,8 @@ export default function SignupScreen() {
   const [agreed, setAgreed] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date(2000, 0, 1));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleDateChange = (event, date) => {
     if (Platform.OS === 'android') {
@@ -28,6 +34,37 @@ export default function SignupScreen() {
         year: 'numeric'
       });
       setDob(formattedDate);
+    }
+  };
+
+  const handleSignup = async () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError('Name, email, and password are required.');
+      return;
+    }
+    if (!agreed) {
+      setError('Please accept the terms to continue.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError('');
+      const data = await signupUser({ name, email, password });
+      if (data?.accessToken) {
+        await setItem(STORAGE_KEYS.authToken, data.accessToken);
+      }
+      if (data?.refreshToken) {
+        await setItem(STORAGE_KEYS.refreshToken, data.refreshToken);
+      }
+      if (data?.user) {
+        await setItem(STORAGE_KEYS.user, data.user);
+      }
+      router.replace('/');
+    } catch (err) {
+      setError(err.message || 'Signup failed.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,6 +106,22 @@ export default function SignupScreen() {
                   <Text className="mt-2 font-poppins text-sm text-slate-500">
                     Join us and explore new possibilities!
                   </Text>
+                </View>
+
+                {error ? (
+                  <Text className="mb-4 font-poppins text-sm text-red-600">
+                    {error}
+                  </Text>
+                ) : null}
+
+                <View className="mb-4">
+                  <TextInput
+                    placeholder="Your name"
+                    value={name}
+                    onChangeText={setName}
+                    placeholderTextColor="#a1a1a1"
+                    className="font-poppins rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900"
+                  />
                 </View>
 
                 {/* Email Input */}
@@ -132,12 +185,12 @@ export default function SignupScreen() {
 
                 {/* Create Account Button */}
                 <Pressable
-                  onPress={() => router.push('/')}
+                  onPress={handleSignup}
                   className={`mb-6 items-center rounded-full py-3 ${agreed ? 'bg-blue-600 active:opacity-80' : 'bg-blue-300'}`}
-                  disabled={!agreed}
+                  disabled={!agreed || loading}
                 >
                   <Text className="font-poppins-semibold text-base text-white">
-                    Create account
+                    {loading ? 'Creating account...' : 'Create account'}
                   </Text>
                 </Pressable>
 

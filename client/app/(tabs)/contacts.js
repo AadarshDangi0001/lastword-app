@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   ImageBackground,
@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { apiClient } from '../../src/services/api/client';
 
 const contactBg = require('../../assets/bg-imgs/contactbg.png');
 const MAX_CONTACTS = 3;
@@ -19,7 +20,7 @@ const MAX_CONTACTS = 3;
 const emptyForm = {
   name: '',
   email: '',
-  phone: '',
+  number: '',
   message: '',
 };
 
@@ -30,8 +31,12 @@ export default function ContactsScreen() {
   const [formVisible, setFormVisible] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
+  const [listError, setListError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [maxAllowed, setMaxAllowed] = useState(MAX_CONTACTS);
 
-  const isAtLimit = contacts.length >= MAX_CONTACTS;
+  const isAtLimit = contacts.length >= maxAllowed;
   const addButtonLabel = isAtLimit ? 'Add' : 'Add';
   const addButtonDisabled = isAtLimit;
 
@@ -54,7 +59,7 @@ export default function ContactsScreen() {
     setForm({
       name: contact.name,
       email: contact.email,
-      phone: contact.phone,
+      number: contact.number,
       message: contact.message,
     });
     setEditingId(contact.id);
@@ -69,36 +74,51 @@ export default function ContactsScreen() {
     setError('');
   };
 
-  const handleSave = () => {
-    if (!form.name.trim() || !form.email.trim()) {
-      setError('Name and email are required.');
+  const handleSave = async () => {
+    if (!form.name.trim() || !form.email.trim() || !form.number.trim()) {
+      setError('Name, email, and phone are required.');
+      return;
+    }
+    if (!form.message.trim()) {
+      setError('Message is required.');
       return;
     }
 
     if (editingId) {
-      setContacts(prev =>
-        prev.map(item =>
-          item.id === editingId
-            ? { ...item, ...form }
-            : item
-        )
-      );
-      handleCloseForm();
+      setError('Editing contacts is not available yet.');
       return;
     }
 
-    if (contacts.length >= MAX_CONTACTS) {
+    if (contacts.length >= maxAllowed) {
       setError('You reach max contacts limit.');
       return;
     }
 
-    const newContact = {
-      id: `${Date.now()}`,
-      ...form,
-    };
-
-    setContacts(prev => [...prev, newContact]);
-    handleCloseForm();
+    try {
+      setSaving(true);
+      setError('');
+      const data = await apiClient.post('/contacts', {
+        name: form.name,
+        email: form.email,
+        number: form.number,
+        message: form.message,
+      });
+      if (data?.contact) {
+        const newContact = {
+          id: data.contact._id,
+          name: data.contact.name,
+          email: data.contact.email,
+          number: data.contact.number,
+          message: data.contact.message,
+        };
+        setContacts(prev => [newContact, ...prev]);
+      }
+      handleCloseForm();
+    } catch (err) {
+      setError(err.message || 'Unable to save contact.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = id => {
@@ -107,12 +127,42 @@ export default function ContactsScreen() {
       {
         text: 'Delete',
         style: 'destructive',
-        onPress: () => {
-          setContacts(prev => prev.filter(item => item.id !== id));
+        onPress: async () => {
+          try {
+            await apiClient.del(`/contacts/${id}`);
+            setContacts(prev => prev.filter(item => item.id !== id));
+          } catch (err) {
+            setListError(err.message || 'Unable to delete contact.');
+          }
         },
       },
     ]);
   };
+
+  useEffect(() => {
+    const loadContacts = async () => {
+      try {
+        setLoading(true);
+        setListError('');
+        const data = await apiClient.get('/contacts');
+        setMaxAllowed(data?.maxAllowed || MAX_CONTACTS);
+        const mapped = (data?.contacts || []).map(contact => ({
+          id: contact._id,
+          name: contact.name,
+          email: contact.email,
+          number: contact.number,
+          message: contact.message,
+        }));
+        setContacts(mapped);
+      } catch (err) {
+        setListError(err.message || 'Unable to load contacts.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContacts();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -121,7 +171,13 @@ export default function ContactsScreen() {
       >
         <Text style={styles.title}>Contacts</Text>
 
-        {contacts.length === 0 ? (
+        {listError ? <Text style={styles.errorText}>{listError}</Text> : null}
+
+        {loading ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyText}>Loading contacts...</Text>
+          </View>
+        ) : contacts.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyText}>Zero Contacts</Text>
             <Text style={styles.emptyText}>Add Now</Text>
@@ -209,9 +265,9 @@ export default function ContactsScreen() {
               />
               <TextInput
                 placeholder="Contact Number"
-                value={form.phone}
+                value={form.number}
                 keyboardType="phone-pad"
-                onChangeText={text => setForm(prev => ({ ...prev, phone: text }))}
+                onChangeText={text => setForm(prev => ({ ...prev, number: text }))}
                 style={styles.input}
               />
               <TextInput
@@ -224,8 +280,10 @@ export default function ContactsScreen() {
               />
             </View>
 
-            <Pressable onPress={handleSave} style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>Add</Text>
+            <Pressable onPress={handleSave} style={styles.submitButton} disabled={saving}>
+              <Text style={styles.submitButtonText}>
+                {saving ? 'Saving...' : 'Add'}
+              </Text>
             </Pressable>
           </Pressable>
         </Pressable>

@@ -10,6 +10,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { loginUser } from "../../src/services/api/auth";
+import { setItem } from "../../src/lib/storage";
+import { STORAGE_KEYS } from "../../src/constants/app";
 
 const loginbg = require("../../assets/bg-imgs/loginbg.png");
 
@@ -18,6 +21,39 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      setError("Email and password are required.");
+      return;
+    }
+    if (!agreed) {
+      setError("Please accept the terms to continue.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+      const data = await loginUser({ email, password });
+      if (data?.accessToken) {
+        await setItem(STORAGE_KEYS.authToken, data.accessToken);
+      }
+      if (data?.refreshToken) {
+        await setItem(STORAGE_KEYS.refreshToken, data.refreshToken);
+      }
+      if (data?.user) {
+        await setItem(STORAGE_KEYS.user, data.user);
+      }
+      router.replace("/");
+    } catch (err) {
+      setError(err.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f9fa" }}>
@@ -66,6 +102,12 @@ export default function LoginScreen() {
                 </Text>
               </View>
 
+              {error ? (
+                <Text className="mb-4 font-poppins text-sm text-red-600">
+                  {error}
+                </Text>
+              ) : null}
+
               {/* Email Input */}
               <View className="mb-5 mt-4">
                 <TextInput
@@ -113,12 +155,12 @@ export default function LoginScreen() {
 
               {/* Login Button */}
               <Pressable
-                onPress={() => router.push('/')}
+                onPress={handleLogin}
                 className={`mb-6 items-center rounded-full py-3 ${agreed ? 'bg-blue-600 active:opacity-80' : 'bg-blue-300'}`}
-                disabled={!agreed}
+                disabled={!agreed || loading}
               >
                 <Text className="font-poppins-semibold text-base text-white">
-                  Login now
+                  {loading ? "Logging in..." : "Login now"}
                 </Text>
               </Pressable>
 

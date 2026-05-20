@@ -1,8 +1,25 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import AppContainer from '../../src/components/layout/AppContainer';
+import { logoutUser } from '../../src/services/api/auth';
+import { getItem, removeItem } from '../../src/lib/storage';
+import { STORAGE_KEYS } from '../../src/constants/app';
 
 export default function ProfileScreen() {
+  const handleLogout = async () => {
+    const refreshToken = await getItem(STORAGE_KEYS.refreshToken);
+    try {
+      await logoutUser({ refreshToken });
+    } catch (error) {
+      // Ignore logout errors to ensure local session clears.
+    } finally {
+      await removeItem(STORAGE_KEYS.authToken);
+      await removeItem(STORAGE_KEYS.refreshToken);
+      await removeItem(STORAGE_KEYS.user);
+      router.replace('/auth/login');
+    }
+  };
+
   return (
     <AppContainer>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
@@ -36,7 +53,7 @@ export default function ProfileScreen() {
 
         <Pressable
           className="mt-96 items-center rounded-xl border border-red-500 bg-red-50 py-4"
-          onPress={() => router.replace('/auth/login')}
+          onPress={handleLogout}
         >
           <Text className="font-poppins text-xl text-red-500">Logout</Text>
         </Pressable>
