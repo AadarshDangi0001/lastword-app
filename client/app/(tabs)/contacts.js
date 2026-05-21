@@ -12,7 +12,11 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { apiClient } from '../../src/services/api/client';
+import {
+  createContact,
+  deleteContact,
+  fetchContacts,
+} from '../../src/services/api/contacts';
 
 const contactBg = require('../../assets/bg-imgs/contactbg.png');
 const MAX_CONTACTS = 3;
@@ -97,7 +101,7 @@ export default function ContactsScreen() {
     try {
       setSaving(true);
       setError('');
-      const data = await apiClient.post('/contacts', {
+      const data = await createContact({
         name: form.name,
         email: form.email,
         number: form.number,
@@ -129,7 +133,7 @@ export default function ContactsScreen() {
         style: 'destructive',
         onPress: async () => {
           try {
-            await apiClient.del(`/contacts/${id}`);
+            await deleteContact(id);
             setContacts(prev => prev.filter(item => item.id !== id));
           } catch (err) {
             setListError(err.message || 'Unable to delete contact.');
@@ -144,7 +148,7 @@ export default function ContactsScreen() {
       try {
         setLoading(true);
         setListError('');
-        const data = await apiClient.get('/contacts');
+        const data = await fetchContacts();
         setMaxAllowed(data?.maxAllowed || MAX_CONTACTS);
         const mapped = (data?.contacts || []).map(contact => ({
           id: contact._id,
